@@ -6,11 +6,11 @@ Visualization of trajectories based on CSV datasets.
 ## Status:
 
 - Supported datasets
-    - [x] [atc](#http://www.irc.atr.jp/crest2010_HRI/ATC_dataset/)
-    - [] [sCREEN](#https://vrai.dii.univpm.it/content/screen-dataset)
+    - [x] [atc](http://www.irc.atr.jp/crest2010_HRI/ATC_dataset/)
+    - [ ] [sCREEN](https://vrai.dii.univpm.it/content/screen-dataset)
 - Features
     - [x] path visualization
-    - [] heading angle
+    - [ ] heading angle
 
 ## Arguments:
 
@@ -28,4 +28,4 @@ Visualization of trajectories based on CSV datasets.
 python main.py --path ../atc-tracking-part1/atc-20121024.csv --draw -nt 6
 ```
 
-[First Video](#https://www.youtube.com/watch?v=SxBLP2oAiGc&list=PL8k82WSQRJKz3dgyfyH0HgmMplfczbxO6&index=3)
+[First Video](https://www.youtube.com/watch?v=SxBLP2oAiGc&list=PL8k82WSQRJKz3dgyfyH0HgmMplfczbxO6&index=3)

@@ -1,5 +1,5 @@
 # path-viz
-Visualization of trajectories based on CSV datasets.
+Visualization of huamn motion trajectories based on CSV datasets.
 [under construction]
 
 
@@ -7,10 +7,10 @@ Visualization of trajectories based on CSV datasets.
 
 - Supported datasets
     - [x] [atc](http://www.irc.atr.jp/crest2010_HRI/ATC_dataset/)
-    - [ ] [sCREEN](https://vrai.dii.univpm.it/content/screen-dataset)
+    - [x] [sCREEN](https://vrai.dii.univpm.it/content/screen-dataset)
 - Features
     - [x] path visualization
-    - [ ] heading angle
+    - [ ] heading angle (atc dataset)
 
 ## Arguments:
 

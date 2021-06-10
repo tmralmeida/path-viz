@@ -1,5 +1,5 @@
 import argparse  
-from utils import get_df, AnimTraj
+from utils.common import get_df, AnimTraj
 
 
 parser = argparse.ArgumentParser(description = "Visualization tool for motion trajectories")
@@ -13,7 +13,8 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--ds",
+    "--dataset",
+    "-ds",
     type=str,
     help="Dataset name",
     choices=["atc", "screen"],
@@ -41,10 +42,7 @@ parser.add_argument(
 
 parser.set_defaults(draw=False)
 
-
-
 args = parser.parse_args()
-
-df = get_df(args.path, args.ds)
+df = get_df(args.path, args.dataset)
 anim = AnimTraj(df, args.n_trajectories)
 anim.plot(draw_path=args.draw)

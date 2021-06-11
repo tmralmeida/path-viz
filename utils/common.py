@@ -73,7 +73,7 @@ class AnimTraj():
         
     def __pre_proctrajs(self):
         if self.ds_n == "atc":
-            cols = ["x", "y", "z", "angle of motion", "facing angle"]
+            cols = ["x", "y", "z", "facing angle"]
         elif self.ds_n == "screen":
             cols = ["x", "y", "z"]
         p_ids = self.__sample_ids() # # sampling ids
@@ -108,7 +108,7 @@ class AnimTraj():
                 else:
                     plt.scatter(coords[p][i, 0], coords[p][i, 1], s = 20, label= f"id#{p_ids[p]}", c=self.colors[p])
                 if self.ds_n == "atc":
-                        plt.arrow(coords[p][i, 0], coords[p][i, 1], 1000*(np.cos(coords[p][i, 3]) - np.cos(coords[p][i, 2])), 1000*(np.sin(coords[p][i, 3]) - np.sin(coords[p][i, 2])), width = 300, length_includes_head=True, head_width = 500, color=self.colors[p])
+                        plt.arrow(coords[p][i, 0], coords[p][i, 1], 1500*(np.cos(coords[p][i, 3])), 1500*(np.sin(coords[p][i, 3])), width = 300, length_includes_head=True, head_width = 500, color=self.colors[p])
                         
             plt.legend();
             plt.pause(0.00001);

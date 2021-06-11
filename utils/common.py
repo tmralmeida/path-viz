@@ -30,9 +30,10 @@ def get_df(fp, ds = "atc"):
     return df
 
 class AnimTraj():
-    def __init__(self, df, n_p):
+    def __init__(self, df, n_p, dataset_name):
         self.df = df # main dataframe
         self.n_traj = n_p # number of trajectories to plot
+        self.ds_n = dataset_name
         self.colors = ["black", "green", "red", "blue", "yellow", "pink", "gold", "darkgray", "preu", "brown"] #https://matplotlib.org/stable/gallery/color/named_colors.html
         
     def __sample_ids(self):
@@ -50,15 +51,7 @@ class AnimTraj():
         print(f"Plotting trajectories from {p_ids}...")
         return p_ids
     
-    
-    def __get_axeslim(self, p_df, threshold = 500):
-        x_min = self.df["x"].min() - threshold
-        y_min = self.df["y"].min() - threshold 
-        x_max = self.df["x"].max() + threshold 
-        y_max = self.df["y"].max() + threshold
-        return (x_min, y_min, x_max, y_max)
-    
-    
+
     def __get_maxtrajinfo(self, df):
         return df.id.value_counts().max(), df.id.value_counts().idxmax()
     
@@ -71,8 +64,18 @@ class AnimTraj():
                 coords[c][last_idx-1:, :] = last_val
         return coords
         
+    def __get_axeslim(self, p_df, threshold = 500):
+        x_min = self.df["x"].min() - threshold
+        y_min = self.df["y"].min() - threshold 
+        x_max = self.df["x"].max() + threshold 
+        y_max = self.df["y"].max() + threshold
+        return (x_min, y_min, x_max, y_max)
         
     def __pre_proctrajs(self):
+        if self.ds_n == "atc":
+            cols = ["x", "y", "z", "angle of motion", "facing angle"]
+        elif self.ds_n == "screen":
+            cols = ["x", "y", "z"]
         p_ids = self.__sample_ids() # # sampling ids
         p_df = self.df.loc[self.df["id"].isin(p_ids)] # df with the target trajectories
         grouped = p_df.groupby(p_df.id) # target groupped 
@@ -80,7 +83,7 @@ class AnimTraj():
         coords = []
         for i in range(self.n_traj):
             p = grouped.get_group(p_ids[i])
-            coords.append(p[["x", "y", "z"]].values)
+            coords.append(p[cols].values)
         max_traj, max_id =  self.__get_maxtrajinfo(p_df) # get size of the max traj and the respective id
         n_coords = self.__reshape_traj(coords, max_traj) # reshape smaller trajs to have the same max shape
         return n_coords, max_traj, p_ids
@@ -104,6 +107,9 @@ class AnimTraj():
                     plt.plot(coords[p][:i, 0], coords[p][:i, 1], linewidth = 3, label= f"id#{p_ids[p]}", c=self.colors[p])
                 else:
                     plt.scatter(coords[p][i, 0], coords[p][i, 1], s = 20, label= f"id#{p_ids[p]}", c=self.colors[p])
+                if self.ds_n == "atc":
+                        plt.arrow(coords[p][i, 0], coords[p][i, 1], 1000*(np.cos(coords[p][i, 3]) - np.cos(coords[p][i, 2])), 1000*(np.sin(coords[p][i, 3]) - np.sin(coords[p][i, 2])), width = 300, length_includes_head=True, head_width = 500, color=self.colors[p])
+                        
             plt.legend();
             plt.pause(0.00001);
         plt.ioff()

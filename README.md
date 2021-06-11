@@ -10,8 +10,10 @@ Visualization of huamn motion trajectories based on CSV datasets.
     - [x] [sCREEN](https://vrai.dii.univpm.it/content/screen-dataset)
 - Features
     - [x] path visualization
-    - [ ] heading angle (atc dataset)
+    - [x] heading angle (atc dataset)
+    - [ ] save path
     - [ ] draw map (sCREEN dataset)
+
 
 ## Arguments:
 
@@ -28,5 +30,6 @@ Visualization of huamn motion trajectories based on CSV datasets.
 ```
 python main.py --path ../atc-tracking-part1/atc-20121024.csv --draw -nt 6
 ```
+**Note:** always pass the `path` argument along with the respective `ds` name.
 
 [First Video](https://www.youtube.com/watch?v=SxBLP2oAiGc&list=PL8k82WSQRJKz3dgyfyH0HgmMplfczbxO6&index=3)

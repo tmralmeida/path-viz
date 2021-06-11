@@ -44,5 +44,5 @@ parser.set_defaults(draw=False)
 
 args = parser.parse_args()
 df = get_df(args.path, args.dataset)
-anim = AnimTraj(df, args.n_trajectories)
+anim = AnimTraj(df, args.n_trajectories, args.dataset)
 anim.plot(draw_path=args.draw)

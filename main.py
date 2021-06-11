@@ -1,5 +1,5 @@
 import argparse  
-from utils.common import get_df, AnimTraj
+from utils.common import *
 
 
 parser = argparse.ArgumentParser(description = "Visualization tool for motion trajectories")
@@ -46,3 +46,7 @@ args = parser.parse_args()
 df = get_df(args.path, args.dataset)
 anim = AnimTraj(df, args.n_trajectories, args.dataset)
 anim.plot(draw_path=args.draw)
+
+save = query_yes_no("save trajectory?", default="yes")
+if save == True:
+    anim.save()

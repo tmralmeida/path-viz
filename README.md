@@ -11,7 +11,7 @@ Visualization of huamn motion trajectories based on CSV datasets.
 - Features
     - [x] path visualization
     - [x] heading angle (atc dataset)
-    - [ ] save path
+    - [x] save path
     - [ ] draw map (sCREEN dataset)
 
 

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import random
 from IPython.display import clear_output
 from utils.screen import convert_date
+import sys
 
 
 def get_df(fp, ds = "atc"):
@@ -64,7 +65,7 @@ class AnimTraj():
                 coords[c][last_idx-1:, :] = last_val
         return coords
         
-    def __get_axeslim(self, p_df, threshold = 500):
+    def __get_axeslim(self, threshold = 500):
         x_min = self.df["x"].min() - threshold
         y_min = self.df["y"].min() - threshold 
         x_max = self.df["x"].max() + threshold 
@@ -77,22 +78,23 @@ class AnimTraj():
         elif self.ds_n == "screen":
             cols = ["x", "y", "z"]
         p_ids = self.__sample_ids() # # sampling ids
-        p_df = self.df.loc[self.df["id"].isin(p_ids)] # df with the target trajectories
-        grouped = p_df.groupby(p_df.id) # target groupped 
+        self.p_df = self.df.loc[self.df["id"].isin(p_ids)] # df with the target trajectories
+        grouped = self.p_df.groupby(self.p_df.id) # target groupped 
         
         coords = []
         for i in range(self.n_traj):
             p = grouped.get_group(p_ids[i])
             coords.append(p[cols].values)
-        max_traj, max_id =  self.__get_maxtrajinfo(p_df) # get size of the max traj and the respective id
+        max_traj, max_id =  self.__get_maxtrajinfo(self.p_df) # get size of the max traj and the respective id
         n_coords = self.__reshape_traj(coords, max_traj) # reshape smaller trajs to have the same max shape
         return n_coords, max_traj, p_ids
         
+    def save(self):
+        self.p_df.to_csv(f"{self.ds_n}_{self.n_traj}.csv")
     
     def plot(self, draw_path = True):
         coords, max_traj, p_ids = self.__pre_proctrajs()
-        p_df = self.df.loc[self.df["id"].isin(p_ids)] # redundant computation
-        x_min, y_min, x_max, y_max = self.__get_axeslim(p_df) # axes limits
+        x_min, y_min, x_max, y_max = self.__get_axeslim() # axes limits
         plt.ion()
         plt.plot()
         for i in range(max_traj):
@@ -108,9 +110,42 @@ class AnimTraj():
                 else:
                     plt.scatter(coords[p][i, 0], coords[p][i, 1], s = 20, label= f"id#{p_ids[p]}", c=self.colors[p])
                 if self.ds_n == "atc":
-                        plt.arrow(coords[p][i, 0], coords[p][i, 1], 1500*(np.cos(coords[p][i, 3])), 1500*(np.sin(coords[p][i, 3])), width = 300, length_includes_head=True, head_width = 500, color=self.colors[p])
+                        plt.arrow(coords[p][i, 0], coords[p][i, 1], 1500*(np.cos(coords[p][i, 3])), 1500*(np.sin(coords[p][i, 3])), width = 300, length_includes_head=True, head_width = 600, color=self.colors[p])
                         
             plt.legend();
             plt.pause(0.00001);
         plt.ioff()
         plt.show()
+        
+
+# https://stackoverflow.com/questions/3041986/apt-command-line-interface-like-yes-no-input
+def query_yes_no(question, default="yes"):
+    """Ask a yes/no question via raw_input() and return their answer.
+
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+            It must be "yes" (the default), "no" or None (meaning
+            an answer is required of the user).
+
+    The "answer" return value is True for "yes" or False for "no".
+    """
+    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+        if default is not None and choice == "":
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' " "(or 'y' or 'n').\n")
+

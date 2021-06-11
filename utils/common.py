@@ -99,7 +99,7 @@ class AnimTraj():
         plt.plot()
         for i in range(max_traj):
             plt.clf()
-            plt.title(f"{self.n_traj} trajectories sampled");
+            plt.title(f"{self.n_traj} trajectories sampled from {self.ds_n} dataset");
             plt.xlim([x_min, x_max]);
             plt.ylim([y_min, y_max]);
             plt.xlabel("x[mm]");

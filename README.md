@@ -3,7 +3,7 @@ Visualization of huamn motion trajectories based on CSV datasets.
 [under construction]
 
 
-## Status:
+## Status
 
 - Supported datasets
     - [x] [atc](http://www.irc.atr.jp/crest2010_HRI/ATC_dataset/)
@@ -15,7 +15,7 @@ Visualization of huamn motion trajectories based on CSV datasets.
     - [ ] draw map (sCREEN dataset)
 
 
-## Arguments:
+## Arguments
 
 | Argument Name      |   Type   |    Default    | Additional Info                         |
 | ------------------ | :------: | :-----------: | --------------------------------------- |
@@ -26,10 +26,16 @@ Visualization of huamn motion trajectories based on CSV datasets.
 | --no_draw          | ------   |    ------     | Only scattered visualization            |
 
 
-## Example:
+## Running
+
 ```
 python main.py --path ../atc-tracking-part1/atc-20121024.csv --draw -nt 6
 ```
 **Note:** always pass the `path` argument along with the respective `ds` name.
+
+After the trajectory finishing, we can save the model by first pressing `q` key to close the plot window and then by answering to the prompted question.
+## Example
+
+`example` folder contains a saved path of one person from the [atc](http://www.irc.atr.jp/crest2010_HRI/ATC_dataset/) dataset.
 
 [First Video](https://www.youtube.com/watch?v=SxBLP2oAiGc&list=PL8k82WSQRJKz3dgyfyH0HgmMplfczbxO6&index=3)

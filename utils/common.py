@@ -92,7 +92,7 @@ class AnimTraj():
     def save(self):
         self.p_df.to_csv(f"{self.ds_n}_{self.n_traj}.csv")
     
-    def plot(self, draw_path = True):
+    def plot(self, draw_path = False, grid = False):
         coords, max_traj, p_ids = self.__pre_proctrajs()
         x_min, y_min, x_max, y_max = self.__get_axeslim() # axes limits
         plt.ion()
@@ -104,6 +104,8 @@ class AnimTraj():
             plt.ylim([y_min, y_max]);
             plt.xlabel("x[mm]");
             plt.ylabel("y[mm]");
+            if grid ==True:
+                plt.grid();
             for p in range(self.n_traj):
                 if draw_path:
                     plt.plot(coords[p][:i, 0], coords[p][:i, 1], linewidth = 3, label= f"id#{p_ids[p]}", c=self.colors[p])

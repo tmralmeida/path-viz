@@ -40,12 +40,22 @@ parser.add_argument(
     dest="draw", 
     action="store_false")
 
-parser.set_defaults(draw=False)
+parser.add_argument(
+    "--grid", 
+    dest="grid", 
+    action="store_true")
+
+parser.add_argument(
+    "--no_grid", 
+    dest="grid", 
+    action="store_false")
+
+parser.set_defaults(draw=False, grid=False)
 
 args = parser.parse_args()
 df = get_df(args.path, args.dataset)
 anim = AnimTraj(df, args.n_trajectories, args.dataset)
-anim.plot(draw_path=args.draw)
+anim.plot(draw_path=args.draw, grid = args.grid)
 
 save = query_yes_no("save trajectory?", default="yes")
 if save == True:

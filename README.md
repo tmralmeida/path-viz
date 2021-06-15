@@ -12,6 +12,7 @@ Visualization of huamn motion trajectories based on CSV datasets.
     - [x] path visualization
     - [x] heading angle (atc dataset)
     - [x] save path
+    - [ ] sample interactions between persons based on the relative distance
     - [ ] draw map (sCREEN dataset)
 
 

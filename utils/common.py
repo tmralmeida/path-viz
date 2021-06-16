@@ -35,10 +35,10 @@ class AnimTraj():
         self.df = df # main dataframe
         self.n_traj = n_p # number of trajectories to plot
         self.ds_n = dataset_name
-        self.colors = ["black", "green", "red", "blue", "yellow", "pink", "gold", "darkgray", "preu", "brown"] #https://matplotlib.org/stable/gallery/color/named_colors.html
+        self.colors = ["black", "green", "red", "blue", "yellow", "pink", "brown", "darkgray", "preu"] #https://matplotlib.org/stable/gallery/color/named_colors.html
         
     def __sample_ids(self):
-        un_ts = self.df["time"].unique() # get different time stamples
+        un_ts = self.df["time"].unique() # get different timestamps
         print(f"Df composed of {len(un_ts)} different timestamps. Sampling one...")
         ts = random.choice(un_ts) # radomly sampling one timestamp
         print(f"Timestamp {ts} sampled randomly!")
@@ -50,8 +50,12 @@ class AnimTraj():
         print(f"There are {ts_ds.shape[0]} different trajectories in this timestamp. Sampling {self.n_traj}...")
         p_ids = random.sample(ts_ds.id.tolist(), self.n_traj)
         print(f"Plotting trajectories from {p_ids}...")
-        return p_ids
+        return p_ids, ts
     
+    def __sample_parwiseids(self):
+        return 
+
+
 
     def __get_maxtrajinfo(self, df):
         return df.id.value_counts().max(), df.id.value_counts().idxmax()
@@ -74,12 +78,12 @@ class AnimTraj():
         
     def __pre_proctrajs(self):
         if self.ds_n == "atc":
-            cols = ["x", "y", "z", "facing angle"]
+            cols = ["time", "x", "y", "z", "facing angle"]
         elif self.ds_n == "screen":
-            cols = ["x", "y", "z"]
-        p_ids = self.__sample_ids() # # sampling ids
-        self.p_df = self.df.loc[self.df["id"].isin(p_ids)] # df with the target trajectories
-        grouped = self.p_df.groupby(self.p_df.id) # target groupped 
+            cols = ["time", "x", "y", "z"]
+        p_ids, ts = self.__sample_ids() # sampling ids
+        self.p_df = self.df.loc[(self.df["time"] >= ts) & (self.df["id"].isin(p_ids))].sort_values(by="time") # df with the target trajectories
+        grouped = self.p_df.groupby(self.p_df.id) # target group
         
         coords = []
         for i in range(self.n_traj):
@@ -99,7 +103,6 @@ class AnimTraj():
         plt.plot()
         for i in range(max_traj):
             plt.clf()
-            plt.title(f"{self.n_traj} trajectories sampled from {self.ds_n} dataset");
             plt.xlim([x_min, x_max]);
             plt.ylim([y_min, y_max]);
             plt.xlabel("x[mm]");
@@ -107,12 +110,13 @@ class AnimTraj():
             if grid ==True:
                 plt.grid();
             for p in range(self.n_traj):
+                plt.title(f"{self.n_traj} trajectories sampled from {self.ds_n} dataset at {coords[p][i, 0]}");
                 if draw_path:
-                    plt.plot(coords[p][:i, 0], coords[p][:i, 1], linewidth = 3, label= f"id#{p_ids[p]}", c=self.colors[p])
+                    plt.plot(coords[p][:i, 1], coords[p][:i, 2], linewidth = 3, label= f"id#{p_ids[p]}", c=self.colors[p])
                 else:
-                    plt.scatter(coords[p][i, 0], coords[p][i, 1], s = 20, label= f"id#{p_ids[p]}", c=self.colors[p])
+                    plt.scatter(coords[p][i, 1], coords[p][i, 2], s = 20, label= f"id#{p_ids[p]}", c=self.colors[p])
                 if self.ds_n == "atc":
-                        plt.arrow(coords[p][i, 0], coords[p][i, 1], 1500*(np.cos(coords[p][i, 3])), 1500*(np.sin(coords[p][i, 3])), width = 300, length_includes_head=True, head_width = 600, color=self.colors[p])
+                        plt.arrow(coords[p][i, 1], coords[p][i, 2], 1500*(np.cos(coords[p][i, 4])), 1500*(np.sin(coords[p][i, 4])), width = 300, length_includes_head=True, head_width = 600, color=self.colors[p])
                         
             plt.legend();
             plt.pause(0.00001);

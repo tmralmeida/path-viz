@@ -15,7 +15,7 @@ def get_df(fp, ds = "atc"):
         ds (str, optional): Dataset. Defaults to "atc"
     """
     if ds == "atc":
-        col_tit = ["time", 
+        col_tit = ["timestamp", 
                    "id", 
                    "x", "y", "z", 
                    "velocity",
@@ -24,7 +24,7 @@ def get_df(fp, ds = "atc"):
         df = pd.read_csv(fp, names = col_tit)
     elif ds == "screen":
         df = pd.read_csv(fp)
-        df["time"] = df["time"].apply(convert_date)
+        df["timestamp"] = df["time"].apply(convert_date)
         df[["x", "y", "z"]] = df[["x", "y", "z"]].apply(lambda coord : coord*1000) # convert to mm
     else:
         raise ValueError(f"Not prepared for {ds} yet")
@@ -38,11 +38,11 @@ class AnimTraj():
         self.colors = ["black", "green", "red", "blue", "yellow", "pink", "brown", "darkgray", "preu"] #https://matplotlib.org/stable/gallery/color/named_colors.html
         
     def __sample_ids(self):
-        un_ts = self.df["time"].unique() # get different timestamps
+        un_ts = self.df["timestamp"].unique() # get different timestamps
         print(f"Df composed of {len(un_ts)} different timestamps. Sampling one...")
         ts = random.choice(un_ts) # radomly sampling one timestamp
         print(f"Timestamp {ts} sampled randomly!")
-        ts_ds = self.df[self.df["time"] == ts] # getting all trajectories related to this timestamp
+        ts_ds = self.df[self.df["timestamp"] == ts] # getting all trajectories related to this timestamp
         
         if self.n_traj > ts_ds.shape[0]:
             raise RuntimeError(f"There are no {self.n_traj} different trajectories in this timestamp. Run Again")
@@ -78,11 +78,11 @@ class AnimTraj():
         
     def __pre_proctrajs(self):
         if self.ds_n == "atc":
-            cols = ["time", "x", "y", "z", "facing angle"]
+            cols = ["timestamp", "x", "y", "z", "facing angle"]
         elif self.ds_n == "screen":
-            cols = ["time", "x", "y", "z"]
+            cols = ["timestamp", "x", "y", "z"]
         p_ids, ts = self.__sample_ids() # sampling ids
-        self.p_df = self.df.loc[(self.df["time"] >= ts) & (self.df["id"].isin(p_ids))].sort_values(by="time") # df with the target trajectories
+        self.p_df = self.df.loc[(self.df["timestamp"] >= ts) & (self.df["id"].isin(p_ids))].sort_values(by="timestamp") # df with the target trajectories
         grouped = self.p_df.groupby(self.p_df.id) # target group
         
         coords = []

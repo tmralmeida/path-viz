@@ -12,26 +12,31 @@ Visualization of huamn motion trajectories based on CSV datasets.
     - [x] path visualization
     - [x] heading angle (atc dataset)
     - [x] save path
-    - [ ] sample interactions between persons based on the relative distance
-    - [ ] draw map (sCREEN dataset)
+    - [x] draw map (sCREEN dataset)
 
 
 ## Arguments
 
-| Argument Name      |   Type   |    Default    | Additional Info                         |
-| ------------------ | :------: | :-----------: | --------------------------------------- |
-| --path             |  `str`   |    ------     | Path for the CSV file                   |
-| --ds               |  `str`   |    `atc`      | Name of the dataset [`atc`, `screen`]   |
-| --n_trajectories   | `int`    |    `1`        | Number of trajectories to show          |
-| --draw             | ------   |    ------     | Draw path                               |
-| --no_draw          | ------   |    ------     | Only scattered visualization            |
+| Argument Name      |   Type   |    Default    | Additional Info                                         |
+| ------------------ | :------: | :-----------: | ------------------------------------------------------- |
+| --path             |  `str`   |    ------     | Path for the CSV file                                   |
+| --dataset          |  `str`   |    `atc`      | Dataset name [`atc`, `edeka`, `globus`, `aldi`, `rewe`] |
+| --map_path         |  `str`   | `path_to_map` | Path for the map image                                  |  
+| --n_trajectories   | `int`    |    `1`        | Number of trajectories to show                          |
+| --draw             | ------   |    ------     | Draw path                                               |
+| --no_draw          | ------   |    ------     | Only scattered visualization                            |
 
 
 ## Running
 
 ```
-python main.py --path ../atc-tracking-part1/atc-20121024.csv --draw -nt 6
+python main.py --path ../datasets/atc-tracking-part1/atc-20121024.csv --draw -nt 6
 ```
+
+```
+python main.py --path ../datasets/new_sCREEN/sCREEN\ dataset/globus.txt --dataset globus --n_trajectories 4 --draw 
+```
+
 **Note:** always pass the `path` argument along with the respective `ds` name.
 
 To save the path: press `q` key to close the plot window at the end of the visualization and then press `y` key in the terminal.

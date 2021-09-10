@@ -1,3 +1,4 @@
+import os
 import argparse  
 from utils.common import *
 
@@ -17,9 +18,20 @@ parser.add_argument(
     "-ds",
     type=str,
     help="Dataset name",
-    choices=["atc", "screen"],
+    choices=["atc", "aldi", "rewe", "globus", "edeka"],
     default="atc"
 )
+
+
+parser.add_argument(
+    "--map_path",
+    "-mp",
+    type = str,
+    default="/home/tmr/Documents/PhD/My_PhD/code/datasets/new_sCREEN",
+    required = False,
+    help = "map png file path"
+)
+
 
 parser.add_argument(
     "--n_trajectories",
@@ -51,11 +63,15 @@ parser.add_argument(
     action="store_false")
 
 parser.set_defaults(draw=False, grid=False)
-
 args = parser.parse_args()
+mp = None
+if args.dataset in ["edeka", "globus", "aldi", "rewe"]:
+    mp = os.path.join(args.map_path, args.dataset + "_map.png")
+
+
 df = get_df(args.path, args.dataset)
 anim = AnimTraj(df, args.n_trajectories, args.dataset)
-anim.plot(draw_path=args.draw, grid = args.grid)
+anim.plot(draw_path=args.draw, grid = args.grid, map_path = mp)
 
 save = query_yes_no("save trajectory?", default="yes")
 if save == True:

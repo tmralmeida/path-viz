@@ -112,11 +112,11 @@ class AnimTraj():
         plt.plot()
         if map_path is not None:
             img = Image.open(map_path)
-            plt.imshow(img, extent=[self.xmin_map, self.xmax_map, self.ymin_map, self.ymax_map]);
+            plt.imshow(img, extent=[self.xmin_map, self.xmax_map, self.ymax_map, self.ymin_map]);
         for i in range(max_traj):
             plt.clf()
             if map_path is not None:
-                plt.imshow(img, extent=[self.xmin_map, self.xmax_map, self.ymin_map, self.ymax_map]);
+                plt.imshow(img, extent=[self.xmin_map, self.xmax_map, self.ymax_map, self.ymin_map]);
             else:
                 plt.xlim([x_min, x_max]);
                 plt.ylim([y_min, y_max]);

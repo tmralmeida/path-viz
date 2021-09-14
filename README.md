@@ -21,7 +21,7 @@ Visualization of huamn motion trajectories based on CSV datasets.
 | ------------------ | :------: | :-----------: | ------------------------------------------------------- |
 | --path             |  `str`   |    ------     | Path for the CSV file                                   |
 | --dataset          |  `str`   |    `atc`      | Dataset name [`atc`, `edeka`, `globus`, `aldi`, `rewe`] |
-| --map_path         |  `str`   | `path_to_map` | Path for the map image                                  |  
+| --map_dir          |  `str`   | `dir_to_map`  | Directory for the map image                             |  
 | --n_trajectories   | `int`    |    `1`        | Number of trajectories to show                          |
 | --draw             | ------   |    ------     | Draw path                                               |
 | --no_draw          | ------   |    ------     | Only scattered visualization                            |

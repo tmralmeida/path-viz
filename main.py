@@ -24,7 +24,7 @@ parser.add_argument(
 
 
 parser.add_argument(
-    "--map_path",
+    "--map_dir",
     "-mp",
     type = str,
     default="/home/tmr/Documents/PhD/My_PhD/code/datasets/new_sCREEN",
@@ -66,7 +66,7 @@ parser.set_defaults(draw=False, grid=False)
 args = parser.parse_args()
 mp = None
 if args.dataset in ["edeka", "globus", "aldi", "rewe"]:
-    mp = os.path.join(args.map_path, args.dataset + "_map.png")
+    mp = os.path.join(args.map_dir, args.dataset + "_map.png")
 
 
 df = get_df(args.path, args.dataset)

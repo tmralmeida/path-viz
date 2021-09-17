@@ -60,10 +60,6 @@ class AnimTraj():
         print(f"Plotting trajectories from {p_ids}...")
         return p_ids, ts
     
-    def __sample_parwiseids(self):
-        return 
-
-
 
     def __get_maxtrajinfo(self, df):
         return df.tag_id.value_counts().max(), df.tag_id.value_counts().idxmax()
